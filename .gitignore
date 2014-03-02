@@ -1,0 +1,3 @@
+#ignore grunt node_modules
+js-client/node_modules/*
+js-client/node_modules

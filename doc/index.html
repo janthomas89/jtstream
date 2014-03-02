@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <meta charset="utf-8">
+    <title>JTStream - Stream your Pages</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 70px;
+        }
+
+        .container {
+            width: 650px;
+        }
+
+        .pre-badge {
+            border: 1px solid #ccc;
+            border-radius: 0px 4px 0px 4px;
+            padding: 2px 6px;
+            color: #333;
+            background-color: #fff;
+            font-weight: bold;
+        }
+
+        dd {
+            margin-bottom: 40px;
+        }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#navigation">
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div id="navigation" class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">JTStream [ˈd͜ʃɛtstriːm]</a>
+            </div>
+            <ul class="nav navbar-nav">
+                <li><a href="#about">About</a></li>
+                <li><a href="#examples">More Examples</a></li>
+                <li><a href="#documentation">Documentation</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h2 id="about">What is JTStream?</h2>
+        <p>
+            JTStream is a MIT licensed HTTP streaming library, which tries to implement <strong>facebooks BigPipe</strong> approach.
+            If you are not familiar with this idea go <a href="http://www.facebook.com/note.php?note_id=389414033919">here</a> for more information.
+            In addition to facebooks original concept, JTStream adds the abillity to open some asynchronous ajax like streams, once the document is loaded.
+        </p>
+        <p>
+            The library is dividded into two parts.
+            The first one is a lightweigt <strong>JavaScript</strong> library (minified ~7kB) for the browser.
+            If you want to use this library in old browsers, make shure you include <a href="https://github.com/es-shims/es5-shim">es5-shim</a>.
+            The second one is the corresponidng server component, written in <strong>PHP</strong>.
+            A node.js implementation is planned but not implemented yet.
+        </p>
+        <p>
+            Each item you send through the stream is called a "part". Each part has a type. Although you can easyly implement your own types, there are already some built in types:
+            <ul>
+                <dt>html:</dt>
+                <dd>
+                    Send a bunch of html through the stream and place it in the dom.
+                    <div>
+                        <span class="pre-badge pull-right">PHP</span>
+<pre>$stream->flush(new HTMLPart(
+    'container-1',
+    'Lorem ipsum dolor sit amet!'
+));</pre>
+                        <span class="pre-badge pull-right">Stream</span>
+<pre>&lt;script&gt;
+    JTStream.process({
+        type: 'html',
+        id: 'container-1',
+        html: 'Lorem ipsum dolor sit amet!'
+    });
+&lt;/script&gt;</pre>
+                    </div>
+                </dd>
+
+                <dt>resource:</dt>
+                <dd>
+                    Load js or css ressources asynchronously via the stream.
+                    <div>
+                        <span class="pre-badge pull-right">PHP</span>
+<pre>$stream->flush(new ResourcePart('js', 'somescript.js'));</pre>
+                        <span class="pre-badge pull-right">Stream</span>
+<pre>&lt;script&gt;
+    JTStream.process({
+        type: 'resource',
+        resourceType: 'js',
+        resourceUrl: '/js/app.js'
+    });
+&lt;/script&gt;</pre>
+                    </div>
+                </dd>
+
+                <dt>js:</dt>
+                <dd>
+                    Eval some inline js sent through the stream.
+                    <div>
+                        <span class="pre-badge pull-right">PHP</span>
+<pre>$stream->flush(new JSPart('console.log("Hello world!");'));</pre>
+                        <span class="pre-badge pull-right">Stream</span>
+<pre>&lt;script&gt;
+    JTStream.process({
+        type: 'js',
+        text: 'console.log("Hello world!");'
+    });
+&lt;/script&gt;</pre>
+                    </div>
+                </dd>
+
+                <dt>css:</dt>
+                <dd>
+                    Eval some inline css sent through the stream.
+                    <div>
+                        <span class="pre-badge pull-right">PHP</span>
+<pre>$stream->flush(new CSSPart('.come-class { color: red; }'));</pre>
+                        <span class="pre-badge pull-right">Stream</span>
+<pre>&lt;script&gt;
+    JTStream.process({
+        type: 'css',
+        text: '.come-class { color: red; }'
+    });
+&lt;/script&gt;</pre>
+                    </div>
+                </dd>
+
+                <dt>pagelet:<dt>
+                <dd>
+                    Combine all the types mentioned before. A pagelet consists of some html, a list of js and css ressources, inline js and inline css.
+                    <div>
+                        <span class="pre-badge pull-right">PHP</span>
+<pre>
+$pagelet = new PageletPart(new HTMLPart('pagelet-1', 'Lorem ipsum ...'));
+$pagelet->addCSSResource(new ResourcePart('css', '/css/pagelet.css'));
+$pagelet->addJSResource(new ResourcePart('js', '/js/app.js'));
+$pagelet->addCSSPart(new CSSPart('.node-123 { color:red; }'));
+$pagelet->addJSPart(new JSPart('alert("Lorem ipsum ...");'));
+$stream->flush($pagelet);</pre>
+                        <span class="pre-badge pull-right">Stream</span>
+<pre>&lt;script&gt;
+    JTStream.process({
+        type: 'pagelet',
+        id: 'pagelet-1',
+        html: 'Lorem ipsum ...',
+        js: ['alert("Lorem ipsum ...");'],
+        css: ['.node-123 { color:red; }'],
+        jsResources: ['/js/app.js'],
+        cssResources: ['/css/pagelet.css']
+    });
+&lt;/script&gt;</pre>
+                    </div>
+                </dd>
+            </ul>
+        </p>
+        <p><br></p>
+
+
+        <h2 id="examples">More Examples</h2>
+        <p>
+            <h3>Basic usage</h3>
+            <pre>
+&lt;html&gt;
+&lt;head&gt;
+    ...
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class="container" id="container-1"&gt;&lt;/div&gt;
+&lt;/body&gt;
+
+&lt;!-- load the client side library, before you send data through the stream --&gt;
+&lt;script src="jtstream.js"&gt;&lt;/script&gt;
+
+&lt;?php
+
+use JTStream\JTStream;
+use JTStream\Part\HTML as HTMLPart;
+use JTStream\Part\Resource as ResourcePart;
+use JTStream\Part\JS as JSPart;
+use JTStream\Part\Pagelet as PageletPart;
+
+/* instanciate the stream */
+$stream = new JTStream();
+
+/* send the start of stream event to the client */
+$stream->sos(array(
+    'some' => 'payload'
+));
+
+/* call the client to load some js  */
+$stream->flush(new ResourcePart('js', 'somescript.js'));
+
+/* let the client render some html */
+$stream->push(new HTMLPart(
+    'container-1',
+    'Lorem ipsum dolor sit amet!'
+));
+$stream->flush();
+
+/* call the client to eval some inline js */
+$stream->flush(new JSPart('console.log("Hello world!");'));
+
+/* here comes a pagelet */
+$htmlPart = new HTMLPart('container-1', 'this is my pagelts content ...', 'append');
+$pagelet = new PageletPart($htmlPart);
+$pagelet->addCSSResource(new ResourcePart('css', '/css/pagelet.css'));
+$pagelet->addJSResource(new ResourcePart('css', '/js/pagelet.js'));
+$stream->flush($pagelet);
+
+/* send the end of stream event to the client */
+$stream->eos(array(
+    'some' => 'payload'
+));
+
+?>
+
+&lt;/html&gt;
+            </pre>
+
+            <h3>Asynchronous ajax like stream</h3>
+            <strong>Client</strong>
+            <pre>
+...
+
+&lt;div class="container" id="container-1"&gt;&lt;/div&gt;
+
+&lt;script&gt;
+    var stream = JTStream.createURLStream('ajax-stream.php');
+    stream.open();
+&lt;/script&gt;
+...
+            </pre>
+
+            <strong>ajax-stream.php</strong>
+            <pre>
+&lt;?php
+use JTStream\JTStream;
+use JTStream\Part\HTML as HTMLPart;
+
+$stream = new JTStream();
+
+/* count from 0 to 4 in 4 seconds */
+for ($i = 0; $i < 5; $i++) {
+    $stream->flush(new HTMLPart('container-1', $i));
+    sleep(1);
+}
+            </pre>
+        </p>
+
+        <h2 id="documentation">Documentation</h2>
+        <p>
+            For more documentation take a look at the
+            <a href="https://github.com/janthomas89/jtstream/doc/examples/">examples</a>,
+            <a href="https://github.com/janthomas89/jtstream/js-client/tests/">client tests</a>,
+            <a href="https://github.com/janthomas89/jtstream/php-server/src/JTStream/Tests/">server tests</a>
+            or the <a href="https://github.com/janthomas89/jtstream/">code</a>.
+        </p>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+</body>
+</html>

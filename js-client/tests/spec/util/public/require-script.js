@@ -1,0 +1,1 @@
+JTStream.__requireScriptDummy();

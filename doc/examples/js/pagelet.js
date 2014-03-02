@@ -1,0 +1,3 @@
+var initPagelet = function(domID) {
+    
+};

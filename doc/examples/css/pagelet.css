@@ -1,0 +1,12 @@
+div.pagelet {
+    padding: 10px;
+}
+
+div.pagelet h1 {
+    padding: 0;
+    margin: 0;
+}
+
+div.pagelet h2 {
+    border-bottom: 1px dashed black;
+}

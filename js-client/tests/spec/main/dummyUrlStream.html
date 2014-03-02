@@ -1,0 +1,13 @@
+<script>
+(function() {
+    var streamId = (function() {
+        var query = window.location.search.substr(1);
+        return query.split('=')[1];
+    })();
+
+    parent.JTStream[streamId].process({
+        type: 'customPart',
+        foo: 'bar'
+    });
+})();
+</script>
