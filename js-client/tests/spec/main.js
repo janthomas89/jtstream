@@ -1,36 +1,36 @@
 describe("./main", function() {
-    var JTStreamOrig = JTStream;
+    var jtstreamOrig = jtstream;
 
     beforeEach(function() {
         var Stream = function() {};
-        Stream.prototype = JTStreamOrig;
-        JTStream = new Stream();
-        JTStream.registerDefaultCallbacks();
-        JTStream.init();
+        Stream.prototype = jtstreamOrig;
+        jtstream = new Stream();
+        jtstream.registerDefaultCallbacks();
+        jtstream.init();
     });
 
     afterEach(function() {
-        JTStream = JTStreamOrig;
+        jtstream = jtstreamOrig;
     });
 
     it("registerCallback and getCallback should work properly", function() {
         var callback = function() {};
-        JTStream.registerCallback('testtype', callback);
+        jtstream.registerCallback('testtype', callback);
 
-        expect(JTStream.getCallback('testtype')).toBe(callback);
-        expect(JTStream.getCallback('invlaidtesttype')).toBe(undefined);
+        expect(jtstream.getCallback('testtype')).toBe(callback);
+        expect(jtstream.getCallback('invlaidtesttype')).toBe(undefined);
     });
 
     it("should have installed the built in parts", function() {
-        expect(JTStream.getCallback('css')).not.toBe(undefined);
-        expect(JTStream.getCallback('html')).not.toBe(undefined);
-        expect(JTStream.getCallback('js')).not.toBe(undefined);
-        expect(JTStream.getCallback('resource')).not.toBe(undefined);
-        expect(JTStream.getCallback('pagelet')).not.toBe(undefined);
+        expect(jtstream.getCallback('css')).not.toBe(undefined);
+        expect(jtstream.getCallback('html')).not.toBe(undefined);
+        expect(jtstream.getCallback('js')).not.toBe(undefined);
+        expect(jtstream.getCallback('resource')).not.toBe(undefined);
+        expect(jtstream.getCallback('pagelet')).not.toBe(undefined);
     });
 
     it("should initialize the stream correct", function() {
-        var appendOrig = JTStream.util.append;
+        var appendOrig = jtstream.util.append;
         var appendNew = function() {
             appendOrig.apply(this, arguments);
         };
@@ -40,10 +40,10 @@ describe("./main", function() {
         var onStreamEnd = function() {};
 
         expect(function() {
-            JTStream.init();
+            jtstream.init();
         }).not.toThrow();
 
-        JTStream.init({
+        jtstream.init({
             util: {
                 foo: function() {},
                 append: appendNew
@@ -54,34 +54,34 @@ describe("./main", function() {
             onStreamEnd: onStreamEnd
         });
 
-        expect(JTStream.util.foo).not.toBe(undefined);
-        expect(JTStream.util.append).toBe(appendNew);
-        expect(JTStream.onStreamStart).toBe(onStreamStart);
-        expect(JTStream.onProcess).toBe(onProcess);
-        expect(JTStream.onProcessed).toBe(onProcessed);
-        expect(JTStream.onStreamEnd).toBe(onStreamEnd);
+        expect(jtstream.util.foo).not.toBe(undefined);
+        expect(jtstream.util.append).toBe(appendNew);
+        expect(jtstream.onStreamStart).toBe(onStreamStart);
+        expect(jtstream.onProcess).toBe(onProcess);
+        expect(jtstream.onProcessed).toBe(onProcessed);
+        expect(jtstream.onStreamEnd).toBe(onStreamEnd);
     });
 
     it("should call sos correct", function() {
         var onStreamStartSpy = jasmine.createSpy('onStreamStartSpy');
         var dummyPayload = {};
 
-        JTStream.init({onStreamStart: onStreamStartSpy});
-        expect(JTStream._started).toBe(false);
-        expect(JTStream._ended).toBe(false);
+        jtstream.init({onStreamStart: onStreamStartSpy});
+        expect(jtstream._started).toBe(false);
+        expect(jtstream._ended).toBe(false);
 
-        JTStream.sos(dummyPayload);
+        jtstream.sos(dummyPayload);
         expect(onStreamStartSpy.calls.length).toBe(1);
         expect(onStreamStartSpy.calls[0].args[0]).toBe(dummyPayload);
-        expect(onStreamStartSpy.calls[0].args[1]).toBe(JTStream);
-        expect(JTStream._started).toBe(true);
-        expect(JTStream._ended).toBe(false);
+        expect(onStreamStartSpy.calls[0].args[1]).toBe(jtstream);
+        expect(jtstream._started).toBe(true);
+        expect(jtstream._ended).toBe(false);
 
-        JTStream.sos(dummyPayload);
+        jtstream.sos(dummyPayload);
         expect(onStreamStartSpy.calls.length).toBe(1);
 
-        JTStream.eos(dummyPayload);
-        JTStream.sos(dummyPayload);
+        jtstream.eos(dummyPayload);
+        jtstream.sos(dummyPayload);
         expect(onStreamStartSpy.calls.length).toBe(2);
     });
 
@@ -89,30 +89,30 @@ describe("./main", function() {
         var onStreamEndSpy = jasmine.createSpy('onStreamEndSpy');
         var dummyPayload = {};
 
-        JTStream.init({onStreamEnd: onStreamEndSpy});
+        jtstream.init({onStreamEnd: onStreamEndSpy});
 
-        JTStream.eos(dummyPayload);
+        jtstream.eos(dummyPayload);
         expect(onStreamEndSpy.calls.length).toBe(1);
         expect(onStreamEndSpy.calls[0].args[0]).toBe(dummyPayload);
-        expect(onStreamEndSpy.calls[0].args[1]).toBe(JTStream);
-        expect(JTStream._started).toBe(false);
-        expect(JTStream._ended).toBe(true);
+        expect(onStreamEndSpy.calls[0].args[1]).toBe(jtstream);
+        expect(jtstream._started).toBe(false);
+        expect(jtstream._ended).toBe(true);
 
-        JTStream.eos(dummyPayload);
+        jtstream.eos(dummyPayload);
         expect(onStreamEndSpy.calls.length).toBe(1);
 
-        JTStream.sos(dummyPayload);
-        JTStream.eos(dummyPayload);
+        jtstream.sos(dummyPayload);
+        jtstream.eos(dummyPayload);
         expect(onStreamEndSpy.calls.length).toBe(2);
     });
 
     it("should throw, when processing with invalid or missing type", function() {
         expect(function() {
-            JTStream.process({});
+            jtstream.process({});
         }).toThrow();
 
         expect(function() {
-            JTStream.process({
+            jtstream.process({
                 type: 'invalidtype'
             });
         }).toThrow();
@@ -134,8 +134,8 @@ describe("./main", function() {
         var onProcessed = callbackFactory('onProcessed');
         var onStreamEnd = callbackFactory('onStreamEnd');
 
-        JTStream.registerCallback('customPart', customPartCallback);
-        JTStream.init({
+        jtstream.registerCallback('customPart', customPartCallback);
+        jtstream.init({
             onStreamStart: onStreamStart,
             onProcess: onProcess,
             onProcessed: onProcessed,
@@ -145,7 +145,7 @@ describe("./main", function() {
         /* trigger stream via script tag to be as close as possible to a
          * real use case.
          */
-        $('<script>JTStream.process({"type":"customPart","foo":"bar"});</script>').appendTo('body');
+        $('<script>jtstream.process({"type":"customPart","foo":"bar"});</script>').appendTo('body');
 
         expect(calls.length).toBe(4);
 
@@ -159,7 +159,7 @@ describe("./main", function() {
         expect(calls[1].arguments[1].foo).toBe('bar');
 
         expect(calls[2].method).toBe('customPartCallback');
-        expect(calls[2].arguments[0]).toBe(JTStream);
+        expect(calls[2].arguments[0]).toBe(jtstream);
         expect(calls[2].arguments[1].type).toBe('customPart');
         expect(calls[2].arguments[1].foo).toBe('bar');
 
@@ -168,7 +168,7 @@ describe("./main", function() {
         expect(calls[3].arguments[1].type).toBe('customPart');
         expect(calls[3].arguments[1].foo).toBe('bar');
 
-        $('<script>JTStream.eos({"foo":"bar"});</script>').appendTo('body');
+        $('<script>jtstream.eos({"foo":"bar"});</script>').appendTo('body');
 
         expect(calls.length).toBe(5);
         expect(calls[4].method).toBe('onStreamEnd');
@@ -177,20 +177,20 @@ describe("./main", function() {
 
     it("should install urlStreams correct", function() {
         var url = 'main/dummyUrlStream.html';
-        var urlStream = JTStream.createURLStream(url, {});
+        var urlStream = jtstream.createURLStream(url, {});
 
         expect(urlStream.url).toBe(url);
-        expect(JTStream[urlStream._id]).toBe(urlStream);
+        expect(jtstream[urlStream._id]).toBe(urlStream);
     });
 
     it("should throw, when no url is given", function() {
-        var urlStream = JTStream.createURLStream('', {});
+        var urlStream = jtstream.createURLStream('', {});
         expect(urlStream.open).toThrow();
     });
 
     it("should load urlStreams correct", function() {
         var url = 'spec/main/dummyUrlStream.html';
-        var urlStream = JTStream.createURLStream(url, {});
+        var urlStream = jtstream.createURLStream(url, {});
         var customPartSpy = jasmine.createSpy('customPartSpy');
         urlStream.registerCallback('customPart', customPartSpy);
 
@@ -213,7 +213,7 @@ describe("./main", function() {
 
     it("should call eos, when url results in 404", function() {
         var url = 'spec/main/invalidUrlStream.html';
-        var urlStream = JTStream.createURLStream(url, {});
+        var urlStream = jtstream.createURLStream(url, {});
         var onStreamEndSpy = jasmine.createSpy('onStreamEndSpy');
         urlStream.init({
             onStreamEnd: onStreamEndSpy

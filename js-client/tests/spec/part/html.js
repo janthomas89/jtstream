@@ -1,5 +1,5 @@
 describe("./part/html", function() {
-    var htmlPart = JTStream.require('./part/html.js');
+    var htmlPart = jtstream.require('./part/html.js');
     var stream;
     var util;
 

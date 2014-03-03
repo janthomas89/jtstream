@@ -127,9 +127,9 @@ class JTStream
     protected function stream($result)
     {
         if ($this->getAjaxStreamID() != '') {
-            $result = '<script>parent.JTStream[' . json_encode($this->getAjaxStreamID()) . '].' . $result . '</script>';
+            $result = '<script>parent.jtstream[' . json_encode($this->getAjaxStreamID()) . '].' . $result . '</script>';
         } else {
-            $result = '<script>JTStream.' . $result . '</script>';
+            $result = '<script>jtstream.' . $result . '</script>';
         }
 
         echo $result . "\n";

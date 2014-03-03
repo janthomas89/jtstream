@@ -1,1 +1,1 @@
-JTStream.__requireScriptDummy();
+jtstream.__requireScriptDummy();

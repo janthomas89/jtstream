@@ -1,5 +1,5 @@
 describe("./part/resource", function() {
-    var resourcePart = JTStream.require('./part/resource.js');
+    var resourcePart = jtstream.require('./part/resource.js');
     var noop = function() {};
     var stream;
     var util;

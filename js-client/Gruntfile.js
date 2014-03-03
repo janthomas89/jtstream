@@ -8,7 +8,7 @@ module.exports = function(grunt) {
                 src: ['src/main.js'],
                 dest: 'jtstream.js',
                 options: {
-                    standalone: 'JTStream'
+                    standalone: 'jtstream'
                 }
             }
         },

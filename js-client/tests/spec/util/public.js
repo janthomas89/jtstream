@@ -18,7 +18,7 @@
     };
 
     describe("./util/public/replace", function() {
-        var replace = JTStream.require('./util/public.js').replace;
+        var replace = jtstream.require('./util/public.js').replace;
 
         it("should replace the content of a DOM element", function() {
             var elm = createElement('dummy', '<p>foo</p>');
@@ -30,7 +30,7 @@
     });
 
     describe("./util/public/append", function() {
-        var append = JTStream.require('./util/public.js').append;
+        var append = jtstream.require('./util/public.js').append;
 
         it("should append the content of a DOM element", function() {
             var elm = createElement('dummy', '<p>foo</p>');
@@ -42,7 +42,7 @@
     });
 
     describe("./util/public/prepend", function() {
-        var prepend = JTStream.require('./util/public.js').prepend;
+        var prepend = jtstream.require('./util/public.js').prepend;
 
         it("should prepend the content of a DOM element", function() {
             var elm = createElement('dummy', '<p>foo</p>');
@@ -54,19 +54,19 @@
     });
 
     describe("./util/public/requireScript", function() {
-        var requireScript = JTStream.require('./util/public.js').requireScript;
+        var requireScript = jtstream.require('./util/public.js').requireScript;
 
         beforeEach(function() {
-            JTStream.__requireScriptDummy = function() {};
-            spyOn(JTStream, '__requireScriptDummy');
+            jtstream.__requireScriptDummy = function() {};
+            spyOn(jtstream, '__requireScriptDummy');
 
-            JTStream.__requireScriptCallback = function() {};
-            spyOn(JTStream, '__requireScriptCallback');
+            jtstream.__requireScriptCallback = function() {};
+            spyOn(jtstream, '__requireScriptCallback');
         });
 
         afterEach(function() {
-            delete JTStream.__requireScriptDummy;
-            delete JTStream.__requireScriptCallback;
+            delete jtstream.__requireScriptDummy;
+            delete jtstream.__requireScriptCallback;
         });
 
         it("should have executed the script", function() {
@@ -75,53 +75,53 @@
             });
 
             waitsFor(function() {
-                return JTStream.__requireScriptDummy.calls.length > 0
+                return jtstream.__requireScriptDummy.calls.length > 0
             }, 'should have loaded the script', 500);
 
             runs(function() {
-                expect(JTStream.__requireScriptDummy).toHaveBeenCalled();
+                expect(jtstream.__requireScriptDummy).toHaveBeenCalled();
             });
         });
 
         it("should have executed the callback", function() {
             runs(function() {
-                requireScript('spec/util/public/require-script.js', JTStream.__requireScriptCallback);
+                requireScript('spec/util/public/require-script.js', jtstream.__requireScriptCallback);
             });
 
             waitsFor(function() {
-                return JTStream.__requireScriptCallback.calls.length > 0
+                return jtstream.__requireScriptCallback.calls.length > 0
             }, 'should have loaded the script', 256);
 
             runs(function() {
-                expect(JTStream.__requireScriptCallback).toHaveBeenCalled();
+                expect(jtstream.__requireScriptCallback).toHaveBeenCalled();
             });
         });
     });
 
     describe("./util/public/evalScript", function() {
-        var evalScript = JTStream.require('./util/public.js').evalScript;
+        var evalScript = jtstream.require('./util/public.js').evalScript;
 
         it("should have evaluated the script", function() {
-            JTStream.__requireScriptDummy = function() {};
-            spyOn(JTStream, '__requireScriptDummy');
+            jtstream.__requireScriptDummy = function() {};
+            spyOn(jtstream, '__requireScriptDummy');
 
-            evalScript('JTStream.__requireScriptDummy();');
+            evalScript('jtstream.__requireScriptDummy();');
 
-            expect(JTStream.__requireScriptDummy).toHaveBeenCalled();
+            expect(jtstream.__requireScriptDummy).toHaveBeenCalled();
 
-            delete JTStream.__requireScriptDummy;
+            delete jtstream.__requireScriptDummy;
         });
     });
 
     describe("./util/public/requireStyle", function() {
-        var requireStyle = JTStream.require('./util/public.js').requireStyle;
+        var requireStyle = jtstream.require('./util/public.js').requireStyle;
 
         it("should have loaded the style", function() {
-            JTStream.__requireStyleCallback = function() {};
-            spyOn(JTStream, '__requireStyleCallback');
+            jtstream.__requireStyleCallback = function() {};
+            spyOn(jtstream, '__requireStyleCallback');
 
             runs(function() {
-                requireStyle('spec/util/public/require-style.css', JTStream.__requireStyleCallback);
+                requireStyle('spec/util/public/require-style.css', jtstream.__requireStyleCallback);
             });
 
             waitsFor(function() {
@@ -129,8 +129,8 @@
             }, 'should have loaded the style', 256);
 
             runs(function() {
-                expect(JTStream.__requireStyleCallback).toHaveBeenCalled();
-                delete JTStream.__requireStyleCallback;
+                expect(jtstream.__requireStyleCallback).toHaveBeenCalled();
+                delete jtstream.__requireStyleCallback;
 
                 expect($('#testContainer').css('width')).toContain('1337px');
             });
@@ -138,7 +138,7 @@
     });
 
     describe("./util/public/evalStyle", function() {
-        var evalStyle = JTStream.require('./util/public.js').evalStyle;
+        var evalStyle = jtstream.require('./util/public.js').evalStyle;
 
         it("should apply styles", function() {
 
@@ -150,7 +150,7 @@
 
     if (window.console && window.console.log) {
         describe("./util/public/log", function() {
-            var log = JTStream.require('./util/public.js').log;
+            var log = jtstream.require('./util/public.js').log;
             var originalDev = __DEV__;
 
             beforeEach(function() {

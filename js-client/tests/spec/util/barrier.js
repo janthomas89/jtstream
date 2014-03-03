@@ -1,5 +1,5 @@
 describe("./util/barrier", function() {
-    var Barrier = JTStream.require('./util/barrier.js');
+    var Barrier = jtstream.require('./util/barrier.js');
     var barrier;
 
     beforeEach(function() {

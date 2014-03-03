@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <title>JTStream - Stream your Pages</title>
+    <title>jtstream - stream your pages</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <style>
         body {
@@ -32,7 +32,7 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div id="navigation" class="container">
             <div class="navbar-header">
-                <a class="navbar-brand" href="#">JTStream [ˈd͜ʃɛtstriːm]</a>
+                <a class="navbar-brand" href="#">jtstream [ˈd͜ʃɛtstriːm]</a>
             </div>
             <ul class="nav navbar-nav">
                 <li><a href="#about">About</a></li>
@@ -44,11 +44,11 @@
 
     <div class="container">
 
-        <h2 id="about">What is JTStream?</h2>
+        <h2 id="about">What is jtstream?</h2>
         <p>
-            JTStream is a MIT licensed HTTP streaming library, which tries to implement <strong>facebooks BigPipe</strong> approach.
+            jtstream is a MIT licensed HTTP streaming library, which tries to implement <strong>facebooks BigPipe</strong> approach.
             If you are not familiar with this idea go <a href="http://www.facebook.com/note.php?note_id=389414033919">here</a> for more information.
-            In addition to facebooks original concept, JTStream adds the abillity to open some asynchronous ajax like streams, once the document is loaded.
+            In addition to facebooks original concept, jtstream adds the abillity to open some asynchronous ajax like streams, once the document is loaded.
         </p>
         <p>
             The library is dividded into two parts.
@@ -71,7 +71,7 @@
 ));</pre>
                         <span class="pre-badge pull-right">Stream</span>
 <pre>&lt;script&gt;
-    JTStream.process({
+    jtstream.process({
         type: 'html',
         id: 'container-1',
         html: 'Lorem ipsum dolor sit amet!'
@@ -88,7 +88,7 @@
 <pre>$stream->flush(new ResourcePart('js', 'somescript.js'));</pre>
                         <span class="pre-badge pull-right">Stream</span>
 <pre>&lt;script&gt;
-    JTStream.process({
+    jtstream.process({
         type: 'resource',
         resourceType: 'js',
         resourceUrl: '/js/app.js'
@@ -105,7 +105,7 @@
 <pre>$stream->flush(new JSPart('console.log("Hello world!");'));</pre>
                         <span class="pre-badge pull-right">Stream</span>
 <pre>&lt;script&gt;
-    JTStream.process({
+    jtstream.process({
         type: 'js',
         text: 'console.log("Hello world!");'
     });
@@ -121,7 +121,7 @@
 <pre>$stream->flush(new CSSPart('.come-class { color: red; }'));</pre>
                         <span class="pre-badge pull-right">Stream</span>
 <pre>&lt;script&gt;
-    JTStream.process({
+    jtstream.process({
         type: 'css',
         text: '.come-class { color: red; }'
     });
@@ -143,7 +143,7 @@ $pagelet->addJSPart(new JSPart('alert("Lorem ipsum ...");'));
 $stream->flush($pagelet);</pre>
                         <span class="pre-badge pull-right">Stream</span>
 <pre>&lt;script&gt;
-    JTStream.process({
+    jtstream.process({
         type: 'pagelet',
         id: 'pagelet-1',
         html: 'Lorem ipsum ...',
@@ -229,7 +229,7 @@ $stream->eos(array(
 &lt;div class="container" id="container-1"&gt;&lt;/div&gt;
 
 &lt;script&gt;
-    var stream = JTStream.createURLStream('ajax-stream.php');
+    var stream = jtstream.createURLStream('ajax-stream.php');
     stream.open();
 &lt;/script&gt;
 ...

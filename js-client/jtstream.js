@@ -6,7 +6,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code (licensed MIT).
  */
-!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.JTStream=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+!function(e){if("object"==typeof exports)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.jtstream=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
 /**
@@ -28,9 +28,9 @@ var util = require('./util/public.js');
  * The prototype for all streams.
  *
  * @constructor
- * @this {JTStream}
+ * @this {Stream}
  */
-var JTStream = function() {
+var Stream = function() {
     this.registerDefaultCallbacks();
     this.init();
 };
@@ -41,7 +41,7 @@ var JTStream = function() {
  * @param {string} type The parts identifier
  * @param {function} callback Callback to be executed whenever this kind of part gets streamed.
  */
-JTStream.prototype.registerCallback = function(type, callback) {
+Stream.prototype.registerCallback = function(type, callback) {
     this.partCallbacks[type] = callback;
 };
 
@@ -51,14 +51,14 @@ JTStream.prototype.registerCallback = function(type, callback) {
  * @param {string} type The parts identifier
  * @return {function} The parts callback
  */
-JTStream.prototype.getCallback = function(type) {
+Stream.prototype.getCallback = function(type) {
     return this.partCallbacks[type];
 };
 
 /**
  * Registe rbuilt in parts.
  */
-JTStream.prototype.registerDefaultCallbacks = function() {
+Stream.prototype.registerDefaultCallbacks = function() {
     this.partCallbacks = {};
     this.registerCallback('html', require('./part/html.js'));
     this.registerCallback('resource', require('./part/resource.js'));
@@ -72,7 +72,7 @@ JTStream.prototype.registerDefaultCallbacks = function() {
  *
  * @param {object} options
  */
-JTStream.prototype.init = function(options) {
+Stream.prototype.init = function(options) {
     options = options || {};
 
     this.util = extend({}, util, options.util);
@@ -91,7 +91,7 @@ JTStream.prototype.init = function(options) {
  *
  * @param {object} payload
  */
-JTStream.prototype.process = function(payload) {
+Stream.prototype.process = function(payload) {
     var partCallbacks = this.partCallbacks;
     var type = payload.type;
 
@@ -118,7 +118,7 @@ JTStream.prototype.process = function(payload) {
  *
  * @param {object} payload
  */
-JTStream.prototype.sos = function(payload) {
+Stream.prototype.sos = function(payload) {
     if (this._started === true) {
         return;
     }
@@ -137,7 +137,7 @@ JTStream.prototype.sos = function(payload) {
  *
  * @param {object} payload
  */
-JTStream.prototype.eos = function(payload) {
+Stream.prototype.eos = function(payload) {
     if (this._ended === true) {
         return;
     }
@@ -152,7 +152,7 @@ JTStream.prototype.eos = function(payload) {
 };
 
 /* This registers the global stream instance. */
-var stream = new JTStream();
+var stream = new Stream();
 
 /**
  * Prototype for URL streams.
@@ -211,7 +211,7 @@ stream.createURLStream = function(url, options) {
 };
 
 /**
- * Method for installing a stream in the global JTStream namepsace.
+ * Method for installing a stream in the global jtstream namepsace.
  *
  * @param {string} stream The stream to be placed in the global stream instance
  * @param {object} options Options for customizing the stream

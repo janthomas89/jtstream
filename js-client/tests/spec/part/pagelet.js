@@ -1,11 +1,11 @@
 describe("./part/pagelet", function() {
-    var pageletPart = JTStream.require('./part/pagelet.js');
+    var pageletPart = jtstream.require('./part/pagelet.js');
     var stream;
     var calls;
 
     beforeEach(function() {
         var Stream = function() {};
-        Stream.prototype = JTStream;
+        Stream.prototype = jtstream;
         stream = new Stream();
 
         calls = [];

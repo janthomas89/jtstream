@@ -31,7 +31,7 @@ class JTStreamTest extends AbstractStreamTestCase
             $stream->flush();
         });
 
-        $expected = "<script>JTStream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
+        $expected = "<script>jtstream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
         $this->assertStream($expected, function(JTStream $stream) {
             $part = new GenericPart('test', array('foo' => 'bar'));
             $stream->flush($part);
@@ -48,14 +48,14 @@ class JTStreamTest extends AbstractStreamTestCase
             $stream->push($part);
         });
 
-        $expected = "<script>JTStream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
+        $expected = "<script>jtstream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
         $this->assertStream($expected, function(JTStream $stream) {
             $part = new GenericPart('test', array('foo' => 'bar'));
             $stream->push($part);
             $stream->flush();
         });
 
-        $expected2 = $expected . "<script>JTStream.process({\"type\":\"test2\",\"foo\":\"bar\"});</script>\n";
+        $expected2 = $expected . "<script>jtstream.process({\"type\":\"test2\",\"foo\":\"bar\"});</script>\n";
         $this->assertStream($expected2, function(JTStream $stream) {
             $part = new GenericPart('test', array('foo' => 'bar'));
             $stream->push($part);
@@ -77,14 +77,14 @@ class JTStreamTest extends AbstractStreamTestCase
             $stream->unshift($part);
         });
 
-        $expected = "<script>JTStream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
+        $expected = "<script>jtstream.process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
         $this->assertStream($expected, function(JTStream $stream) {
             $part = new GenericPart('test', array('foo' => 'bar'));
             $stream->unshift($part);
             $stream->flush();
         });
 
-        $expected2 = "<script>JTStream.process({\"type\":\"test2\",\"foo\":\"bar\"});</script>\n" . $expected;
+        $expected2 = "<script>jtstream.process({\"type\":\"test2\",\"foo\":\"bar\"});</script>\n" . $expected;
         $this->assertStream($expected2, function(JTStream $stream) {
             $part = new GenericPart('test', array('foo' => 'bar'));
             $stream->unshift($part);
@@ -114,7 +114,7 @@ class JTStreamTest extends AbstractStreamTestCase
      */
     public function testURLStream()
     {
-        $expected = "<script>parent.JTStream[\"test\"].process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
+        $expected = "<script>parent.jtstream[\"test\"].process({\"type\":\"test\",\"foo\":\"bar\"});</script>\n";
         $this->assertStream($expected, function(JTStream $stream) {
             $_GET['_jtstreamid'] = 'test';
 
@@ -131,7 +131,7 @@ class JTStreamTest extends AbstractStreamTestCase
      */
     public function testSos()
     {
-        $expected = "<script>JTStream.sos([\"Start!\"]);</script>\n";
+        $expected = "<script>jtstream.sos([\"Start!\"]);</script>\n";
 
         $this->assertStream($expected, function(JTStream $stream) {
             $stream->sos(array('Start!'));
@@ -148,7 +148,7 @@ class JTStreamTest extends AbstractStreamTestCase
      */
     public function testEos()
     {
-        $expected = "<script>JTStream.eos([\"End!\"]);</script>\n";
+        $expected = "<script>jtstream.eos([\"End!\"]);</script>\n";
 
         $this->assertStream($expected, function(JTStream $stream) {
             $stream->eos(array('End!'));

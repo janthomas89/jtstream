@@ -1,5 +1,5 @@
 describe("./util/private/uniqueId", function() {
-    var uniqueId = JTStream.require('./util/private.js').uniqueId;
+    var uniqueId = jtstream.require('./util/private.js').uniqueId;
 
     var arrayUnique = function(a) {
         return a.reduce(function(p, c) {
@@ -21,7 +21,7 @@ describe("./util/private/uniqueId", function() {
 });
 
 describe("./util/private/extend", function() {
-    var extend = JTStream.require('./util/private.js').extend;
+    var extend = jtstream.require('./util/private.js').extend;
     var obj;
 
     beforeEach(function() {
@@ -79,7 +79,7 @@ describe("./util/private/extend", function() {
 });
 
 describe("./util/private/serializeQueryString", function() {
-    var serializeQueryString = JTStream.require('./util/private.js').serializeQueryString;
+    var serializeQueryString = jtstream.require('./util/private.js').serializeQueryString;
 
     it("should return an empty string when called with no params", function() {
         var queryString = serializeQueryString({});
@@ -114,7 +114,7 @@ describe("./util/private/serializeQueryString", function() {
 });
 
 describe("./util/private/setQueryParams", function() {
-    var setQueryParams = JTStream.require('./util/private.js').setQueryParams;
+    var setQueryParams = jtstream.require('./util/private.js').setQueryParams;
 
     it("should append a query param correctly", function() {
         var url = setQueryParams('http://www.jtstream.de', {

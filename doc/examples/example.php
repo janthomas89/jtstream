@@ -13,7 +13,7 @@
 <html lang="en-us" debug="true">
     <head>
         <meta charset="utf-8">
-        <title>JTStream [ˈd͜ʃɛtstriːm] - Example</title>
+        <title>jtstream [ˈd͜ʃɛtstriːm] - Example</title>
         <style>
             .container {
                 border: 1px dashed red;
@@ -23,7 +23,7 @@
         </style>
     </head>
     <body>
-        <h1>JTStream [ˈd͜ʃɛtstriːm] - Example</h1>
+        <h1>jtstream [ˈd͜ʃɛtstriːm] - Example</h1>
 
         <hr>
 

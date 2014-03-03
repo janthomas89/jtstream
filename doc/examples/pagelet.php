@@ -13,7 +13,7 @@
 <html lang="en-us">
     <head>
         <meta charset="utf-8">
-        <title>JTStream [ˈd͜ʃɛtstriːm] - Pagelet Example</title>
+        <title>jtstream [ˈd͜ʃɛtstriːm] - Pagelet Example</title>
         <style>
             .head {
                 background: #aaa;
@@ -66,7 +66,7 @@
     sleep(1);
 
     /* Head */
-    $htmlPart = new HTMLPart('pagelet-1', '<h1>JTStream [ˈd͜ʃɛtstriːm] - Pagelet Example</h1>');
+    $htmlPart = new HTMLPart('pagelet-1', '<h1>jtstream [ˈd͜ʃɛtstriːm] - Pagelet Example</h1>');
     $cssResource = new ResourcePart('css', 'css/pagelet.css');
     $headPagelet = new PageletPart($htmlPart);
     $headPagelet->addCSSResource($cssResource);
