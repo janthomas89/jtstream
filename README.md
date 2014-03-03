@@ -1,6 +1,6 @@
-jtstream (MIT)
+jtstream
 ========
 
-HTTP streaming library in facebooks BigPipe fashion.
+JTStream is a MIT licensed HTTP streaming library inspired by facebooks BigPipe approach.
 
 Visit http://janthomas89.github.io/jtstream for more details.
